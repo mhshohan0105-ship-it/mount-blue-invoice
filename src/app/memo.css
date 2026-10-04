@@ -1,0 +1,366 @@
+/* =========================================================
+   Delivery memo — premium / modern, black & white friendly.
+   Sized for half an A4 sheet (190mm × ~138mm).
+   ========================================================= */
+
+.memo {
+  --ink: #0a0a0a;
+  --ink-2: #3a3a3a;
+  --muted: #7a7a7a;
+  --line: #e2e2e2;
+  --accent: #0a0a0a; /* overridden inline from Settings -> Memo colour */
+  --accent-grad: linear-gradient(var(--accent), var(--accent));
+  --tint: color-mix(in srgb, var(--accent) 6%, #f6f6f6);
+
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  color: var(--ink);
+  font-size: 9pt;
+  line-height: 1.35;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.m-eyebrow {
+  font-size: 6.5pt;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* header */
+.m-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8mm;
+}
+.m-brand {
+  display: flex;
+  align-items: center;
+  gap: 4mm;
+  min-width: 0;
+}
+.m-logo {
+  flex: none;
+  width: 15mm;
+  height: 15mm;
+  border-radius: 3.5mm;
+  background: #000;
+  overflow: hidden;
+}
+.m-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.m-shop {
+  font-size: 15pt;
+  font-weight: 800;
+  letter-spacing: 0.34em;
+  line-height: 1;
+  margin-bottom: 1.6mm;
+  color: var(--accent);
+}
+.m-shop-meta {
+  font-size: 7pt;
+  color: var(--muted);
+  line-height: 1.4;
+  max-width: 100mm;
+}
+.m-id {
+  text-align: right;
+  flex: none;
+}
+.m-no {
+  font-size: 24pt;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-top: 1mm;
+  color: var(--accent);
+}
+.m-hash {
+  color: #b5b5b5;
+  font-weight: 600;
+  margin-right: 0.5mm;
+}
+
+/* meta strip */
+.m-meta {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 4.5mm 0 4mm;
+  background: var(--tint);
+  border-radius: 2.5mm;
+  padding: 2.2mm 0;
+}
+.m-meta > div {
+  padding: 0 4mm;
+  border-left: 0.6pt solid #d6d6d6;
+  min-width: 0;
+}
+.m-meta > div:first-child {
+  border-left: 0;
+}
+.m-meta dt {
+  font-size: 6pt;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.m-meta dd {
+  margin: 0.4mm 0 0;
+  font-size: 9pt;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* customer + COD */
+.m-main {
+  display: flex;
+  gap: 6mm;
+  align-items: stretch;
+}
+.m-to {
+  flex: 1;
+  min-width: 0;
+}
+.m-name {
+  font-size: 14pt;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 1mm 0 1.2mm;
+}
+.m-line {
+  display: flex;
+  gap: 1.8mm;
+  align-items: flex-start;
+}
+.m-line svg {
+  flex: none;
+  width: 3.2mm;
+  height: 3.2mm;
+  margin-top: 0.5mm;
+  color: var(--muted);
+}
+.m-phone {
+  font-size: 10.5pt;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.m-address {
+  margin-top: 1mm;
+  font-size: 9pt;
+  color: var(--ink-2);
+  white-space: pre-line;
+}
+.m-address span {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.m-cod {
+  flex: none;
+  width: 52mm;
+  color: var(--accent);
+  border: 1.4pt solid transparent;
+  background: linear-gradient(#fff, #fff) padding-box, var(--accent-grad) border-box;
+  border-radius: 3.5mm;
+  padding: 3.5mm 4.5mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: right;
+}
+.m-cod-label {
+  font-size: 6.5pt;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.m-cod-amount {
+  font-size: 23pt;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin-top: 0.8mm;
+}
+.m-cod-sub {
+  font-size: 7pt;
+  color: var(--muted);
+  margin-top: 0.5mm;
+}
+/* gradient-filled text (falls back to --accent) */
+.m-grad {
+  color: var(--accent);
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* items */
+.m-items-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: hidden;
+  margin-top: 4.5mm;
+}
+.m-items {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.m-items th {
+  font-size: 6pt;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: left;
+  padding: 0 2mm 1.6mm;
+  border-bottom: 1.2pt solid var(--accent);
+}
+.m-items td {
+  padding: 1.9mm 2mm;
+  border-bottom: 0.5pt solid var(--line);
+  vertical-align: top;
+}
+.m-items th:first-child,
+.m-items td:first-child {
+  padding-left: 0;
+}
+.m-items th:last-child,
+.m-items td:last-child {
+  padding-right: 0;
+}
+.m-c-no {
+  width: 7mm;
+  color: #b0b0b0;
+  font-size: 7.5pt;
+}
+.m-c-item {
+  font-weight: 600;
+}
+.m-c-ctr {
+  text-align: center !important;
+  width: 14mm;
+}
+.m-c-num {
+  text-align: right !important;
+  white-space: nowrap;
+  width: 22mm;
+}
+.m-muted {
+  color: var(--muted);
+}
+.m-strong {
+  font-weight: 700;
+}
+.memo.dense .m-items td {
+  padding-top: 1mm;
+  padding-bottom: 1mm;
+  font-size: 8.5pt;
+}
+
+/* notes + totals */
+.m-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 8mm;
+  margin-top: 3mm;
+}
+.m-notes {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.8mm;
+}
+.m-note {
+  font-size: 8.5pt;
+  color: var(--ink-2);
+}
+.m-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 2mm;
+  align-self: flex-start;
+  border: 0.8pt dashed #9a9a9a;
+  border-radius: 999px;
+  padding: 1.2mm 3.5mm;
+  font-size: 7.5pt;
+  font-weight: 600;
+  color: var(--ink-2);
+}
+.m-check svg {
+  width: 3.4mm;
+  height: 3.4mm;
+  flex: none;
+}
+.m-totals {
+  flex: none;
+  width: 58mm;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+.m-totals > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.6mm 0;
+  font-size: 8.5pt;
+}
+.m-totals dt {
+  color: var(--muted);
+}
+.m-totals dd {
+  margin: 0;
+  font-weight: 600;
+}
+.m-totals .m-total {
+  margin-top: 1mm;
+  padding-top: 1.6mm;
+  border-top: 1.2pt solid var(--accent);
+  font-size: 10.5pt;
+}
+.m-totals .m-total dt {
+  color: var(--ink);
+  font-weight: 700;
+}
+.m-totals .m-total dd {
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* footer */
+.m-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4mm;
+  margin-top: 3.5mm;
+  padding-top: 2mm;
+  border-top: 0.5pt solid var(--line);
+  font-size: 7pt;
+  color: var(--muted);
+}
+.m-foot-fb {
+  font-weight: 600;
+  color: var(--ink-2);
+}
+
+/* PDF capture: render sheets at true size, without screen chrome */
+.capturing .sheet {
+  zoom: 1 !important;
+  box-shadow: none !important;
+}

@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@theme {
+  /* English glyphs come from Inter; Bangla falls through to Noto Sans Bengali. */
+  --font-sans: var(--font-inter), var(--font-bengali), ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: #f5f5f4;
+  color: #0a0a0a;
+}
+
+/* ---------- small UI primitives ---------- */
+@layer components {
+  .input {
+    @apply w-full rounded-lg border border-neutral-300 bg-white px-3 py-2 text-[15px] outline-none transition placeholder:text-neutral-400 focus:border-black focus:ring-1 focus:ring-black disabled:bg-neutral-100;
+  }
+  .label {
+    @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-neutral-500;
+  }
+  .btn-primary,
+  .btn-outline,
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-50;
+  }
+  .btn-primary {
+    @apply bg-black text-white hover:bg-neutral-800;
+  }
+  .btn-outline {
+    @apply border border-neutral-300 bg-white text-black hover:border-black;
+  }
+  .btn-ghost {
+    @apply text-neutral-600 hover:bg-neutral-100 hover:text-black;
+  }
+  .card {
+    @apply rounded-xl border border-neutral-200 bg-white;
+  }
+  .badge {
+    @apply inline-flex items-center rounded-full border px-2 py-0.5 text-xs font-medium;
+  }
+}
+
+/* =========================================================
+   PRINT: two delivery memos per A4 sheet
+   ========================================================= */
+@page {
+  size: A4;
+  margin: 0;
+}
+
+.print-area {
+  background: #d4d4d4;
+  min-height: 100vh;
+  padding: 16px 0 40px;
+}
+
+.sheet {
+  width: 210mm;
+  height: 296.5mm; /* a hair under 297mm so browsers never spill onto a blank page */
+  margin: 0 auto 16px;
+  padding: 7mm 10mm;
+  background: #fff;
+  box-shadow: 0 2px 12px rgb(0 0 0 / 0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.sheet-slot {
+  flex: 1 1 0;
+  min-height: 0;
+  display: flex;
+}
+
+.cut-line {
+  flex: none;
+  height: 8mm;
+  display: flex;
+  align-items: center;
+  gap: 2mm;
+  margin: 0 -6mm;
+  color: #9a9a9a;
+  font-size: 9pt;
+}
+.cut-line::after {
+  content: "";
+  flex: 1;
+  border-top: 1px dashed #9a9a9a;
+}
+
+@media screen and (max-width: 840px) {
+  .print-area .sheet {
+    zoom: 0.44;
+  }
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+  }
+  .no-print {
+    display: none !important;
+  }
+  .print-area {
+    background: none;
+    padding: 0;
+    min-height: 0;
+  }
+  .sheet,
+  .print-area .sheet {
+    zoom: 1;
+    margin: 0;
+    box-shadow: none;
+    break-after: page;
+  }
+  .sheet:last-child {
+    break-after: auto;
+  }
+}
+
