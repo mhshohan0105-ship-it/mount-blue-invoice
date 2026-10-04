@@ -3,14 +3,13 @@
 import { useEffect, useRef } from "react";
 import { ErrorBox, Loading } from "@/components/load-state";
 import { OrderForm } from "@/components/order-form";
-import { autoSyncIfEmpty } from "@/lib/catalog-sync";
 import { todayDhaka } from "@/lib/format";
-import { getNextMemoNo, getSettings, listProducts } from "@/lib/store";
+import { autoSyncIfEmpty, countProducts, getNextMemoNo, getSettings, listProducts } from "@/lib/store";
 import { useDb } from "@/lib/use-db";
 
 export function NewOrderView({ initialPhone }: { initialPhone?: string }) {
   const { data, error, reload } = useDb(
-    () => Promise.all([listProducts(true), getSettings(), getNextMemoNo(), listProducts()]),
+    () => Promise.all([listProducts(true), getSettings(), getNextMemoNo(), countProducts()]),
     [],
   );
   const tried = useRef(false);
@@ -19,7 +18,7 @@ export function NewOrderView({ initialPhone }: { initialPhone?: string }) {
   useEffect(() => {
     if (!data || tried.current) return;
     tried.current = true;
-    autoSyncIfEmpty(data[3].length).then((added) => added && reload());
+    if (data[3] === 0) autoSyncIfEmpty().then((added) => added && reload());
   }, [data, reload]);
 
   if (error) return <ErrorBox error={error} />;

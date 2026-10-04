@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { syncFromWebsite } from "@/lib/catalog-sync";
 import { formatDate, taka } from "@/lib/format";
-import { saveProduct } from "@/lib/store";
+import { saveProduct, syncFromWebsite } from "@/lib/store";
 import type { Product } from "@/lib/types";
 
 export function ProductsManager({

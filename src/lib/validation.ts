@@ -67,7 +67,7 @@ export const backupSchema = z.object({
   app: z.literal("mount-blue-memo"),
   version: z.number(),
   exported_at: z.string(),
-  settings: settingsSchema,
+  settings: settingsSchema.partial(),
   next_memo_no: z.number().int().positive(),
   customers: z.array(z.object({ id: z.number().int().positive(), phone: z.string() }).passthrough()),
   products: z.array(z.object({ id: z.number().int().positive(), name: z.string() }).passthrough()),

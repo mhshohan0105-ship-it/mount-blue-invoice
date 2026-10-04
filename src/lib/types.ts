@@ -87,3 +87,9 @@ export type OrderInput = {
 };
 
 export type ActionResult<T = null> = { ok: true; data: T } | { ok: false; error: string };
+
+export type CatalogItem = { name: string; price: number; sizes: string[]; available: boolean; category: string };
+
+export type CustomerRow = Customer & { order_count: number };
+
+export type OrderFilters = { q?: string; from?: string; to?: string; status?: OrderStatus | ""; page?: number };

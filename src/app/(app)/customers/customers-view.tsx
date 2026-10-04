@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { ErrorBox, Loading } from "@/components/load-state";
-import { listCustomers, PAGE_SIZE } from "@/lib/store";
+import { PAGE_SIZE } from "@/lib/constants";
+import { listCustomers } from "@/lib/store";
 import { useDb } from "@/lib/use-db";
 
 export function CustomersView({ q, page }: { q: string; page: number }) {

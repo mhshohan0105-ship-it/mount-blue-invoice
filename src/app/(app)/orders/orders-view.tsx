@@ -3,20 +3,19 @@
 import Link from "next/link";
 import { ErrorBox, Loading } from "@/components/load-state";
 import { STATUS_LABEL, taka } from "@/lib/format";
-import { getLastBackupAt, getOrderStats, listOrders, PAGE_SIZE } from "@/lib/store";
+import { PAGE_SIZE } from "@/lib/constants";
+import { getOrderStats, listOrders } from "@/lib/store";
 import { ORDER_STATUSES, type OrderStatus } from "@/lib/types";
 import { useDb } from "@/lib/use-db";
 import { OrdersTable } from "./orders-table";
 
 export type OrdersSearch = { q?: string; from?: string; to?: string; status?: string; page?: string };
 
-const BACKUP_REMINDER_DAYS = 7;
-
 export function OrdersView({ search: sp }: { search: OrdersSearch }) {
   const status = ORDER_STATUSES.includes(sp.status as OrderStatus) ? (sp.status as OrderStatus) : "";
   const page = Math.max(1, Number(sp.page) || 1);
   const { data, error, reload } = useDb(
-    () => Promise.all([listOrders({ q: sp.q, from: sp.from, to: sp.to, status, page }), getOrderStats(), getLastBackupAt()]),
+    () => Promise.all([listOrders({ q: sp.q, from: sp.from, to: sp.to, status, page }), getOrderStats()]),
     [sp.q, sp.from, sp.to, status, page],
   );
 
@@ -28,11 +27,8 @@ export function OrdersView({ search: sp }: { search: OrdersSearch }) {
   };
   const filtered = !!(sp.q || sp.from || sp.to || status);
 
-  const [result, stats, lastBackup] = data ?? [];
+  const [result, stats] = data ?? [];
   const pages = result ? Math.max(1, Math.ceil(result.total / PAGE_SIZE)) : 1;
-  const backupDue =
-    !!stats?.monthCount &&
-    (!lastBackup || Date.now() - new Date(lastBackup).getTime() > BACKUP_REMINDER_DAYS * 86_400_000);
 
   return (
     <div className="space-y-5">
@@ -42,18 +38,6 @@ export function OrdersView({ search: sp }: { search: OrdersSearch }) {
           + New order
         </Link>
       </div>
-
-      {backupDue && (
-        <div className="flex flex-wrap items-center gap-3 rounded-xl border border-black bg-white px-4 py-3 text-sm">
-          <span>
-            Your orders are saved only in this browser.{" "}
-            {lastBackup ? `Last backup was over ${BACKUP_REMINDER_DAYS} days ago.` : "You haven't made a backup yet."}
-          </span>
-          <Link href="/settings#backup" className="font-semibold underline">
-            Download backup
-          </Link>
-        </div>
-      )}
 
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         <StatCard label="Today's orders" value={stats ? String(stats.todayCount) : "–"} />
